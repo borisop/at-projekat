@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Tech Shop's Products</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/main.css" rel="stylesheet">
+		<link href="css/registracija_style.css" rel="stylesheet">
+		<link href="css/messageForm.css" rel="stylesheet">
+		<link href="css/loggedUsers.css" rel="stylesheet">
+		<link href="css/chatMessages.css" rel="stylesheet">
+		<script src="js/jquery-1.11.0.js" ></script>
+		<script src="js/vue.js"></script>
+		<script src="js/vuex.js"></script>
+		<script src="js/vue-router.js"></script>
+		<script src="js/vue-resource.js"></script>
+		<script src="js/axios.min.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="navbar navbar-expand-sm navbar-dark bg-dark">
+				<div class="container">
+					<router-link class="logo navbar-brand" style="color:#9a9da0;" to="/"><a>HOME</a></router-link>
+					<ul class="navbar-nav ml-auto-brand">
+						<li class="nav-item"><router-link class="nav-link" to="/agent/stop"><a>Send Message</a></router-link></li>
+						<li></li>
+					</ul>
+				</div>
+			</div>
+			<div class="container">
+				<router-view></router-view>
+			</div>
+		</div>
+		
+		<script src="js/home.js"></script>
+		<script src="js/sendMessage.js"></script>
+		<script src="js/index.js"></script>
+	</body>
+</html>

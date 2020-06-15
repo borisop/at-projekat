@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: projekat-jarClient.jar
+Dependencies: deployment.projekat-ear.ear.projekat-war.war, org.infinispan export
+
