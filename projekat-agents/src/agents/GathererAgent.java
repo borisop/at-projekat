@@ -6,6 +6,8 @@ import javax.ejb.Stateful;
 import model.ACLMessage;
 import model.Agent;
 import model.BaseAgent;
+import model.Performative;
+import webcrawler.Spider;
 
 @Stateful
 @Remote(Agent.class)
@@ -25,6 +27,11 @@ public class GathererAgent extends BaseAgent {
 	@Override
 	protected void onMessage(ACLMessage aclMessage) {
 		System.out.println("****GATHERER AGENT RECIEVED MESSAGE****");
+		
+		if (aclMessage.getPerformative() == Performative.REQUEST) {
+			Spider spider = new Spider();
+			spider.search("http://arstechnica.com/", "computer");
+		}
 		
 	}
  
