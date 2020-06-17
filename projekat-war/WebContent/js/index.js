@@ -5,7 +5,7 @@ const router = new VueRouter({
 	mode: 'hash',
 	routes: [
 		{ path: '/', component: Homepage },
-		{ path: '/agent/stop', component: SendMessage }
+		{ path: '/message/send', component: SendMessage }
 	]
 });
 

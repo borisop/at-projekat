@@ -25,8 +25,8 @@ public class JMSFactory {
 	private ConnectionFactory connectionFactory;
 	@Resource(lookup = "java:jboss/exported/jms/queue/projekat")
 	private Queue defaultQueue;
-//	@Resource(lookup = "java:jboss/exported/jms/queue/projekat")
-//	private Queue testQueue;
+	@Resource(lookup = "java:jboss/exported/jms/queue/projekat-ws")
+	private Queue wsQueue;
 	
 	@PostConstruct
 	public void postConstruct() {
@@ -64,12 +64,12 @@ public class JMSFactory {
 		}
 	}
 	
-//	public MessageProducer getTestProducer(Session session) {
-//		try {
-//			return session.createProducer(testQueue);
-//		} catch (JMSException jmse) {
-//			throw new IllegalStateException(jmse);
-//		}
-//	}
+	public MessageProducer getWsProducer(Session session) {
+		try {
+			return session.createProducer(wsQueue);
+		} catch (JMSException jmse) {
+			throw new IllegalStateException(jmse);
+		}
+	}
 	
 }

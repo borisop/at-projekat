@@ -26,9 +26,12 @@ Vue.component('homepage', {
 						<h1>Start Agent</h1>
 						<form id="composeMessageForm" class="box" method="put" v-on:submit.prevent="startAgent">
 							<input class="txtb" placeholder="Agent Alias" type="text" v-model="agentAlias">
-							<select v-model="selectedType">
-								<option v-for="agent in agentTypes">{{agent.name}}</option>
-							</select>
+							<div>
+								<label style="color:#9a9da0;">Agent Type:</label>
+								<select v-model="selectedType">
+									<option v-for="agent in agentTypes">{{agent.name}}</option>
+								</select>
+							</div>
 							<input class="signup-btn" type="submit" value="Start">
 						</form>
 					</div>
@@ -37,9 +40,12 @@ Vue.component('homepage', {
 					<div class="message-form">
 						<h1>Stop Agent</h1>
 						<form id="stopAgentForm" class="box" method="delete" v-on:submit.prevent="stopAgent">
-							<select v-model="selectedAgent">
-								<option v-for="agentr in runningAgentsCb">{{agentr.agentType.name}}-{{agentr.agentCenter.alias}}@{{agentr.agentCenter.address}}</option>
-							</select>
+							<div>
+								<label style="color:#9a9da0;">Agent:</label>
+								<select v-model="selectedAgent">
+									<option v-for="agentr in runningAgentsCb">{{agentr.agentType.name}}-{{agentr.agentCenter.alias}}@{{agentr.agentCenter.address}}</option>
+								</select>
+							</div>
 							<input class="signup-btn" type="submit" value="Stop">
 						</form>
 					</div>
@@ -66,6 +72,33 @@ Vue.component('homepage', {
 			.catch(function(error) {
 				alert(error.response.data);
 			});
+		
+		var socket;
+		var host = "ws://" + window.location.host + "/projekat-war/ws"
+		
+		try {
+			socket = new WebSocket(host);
+			
+			socket.onmessage = function(msg) {
+				if (msg.data === "AGENT_STARTED" || msg.data === "AGENT_STOPPED") {
+					axios.get('rest/managers/agents/running')
+						.then(function(response) {
+							a.runningAgents = response.data;
+							a.runningAgentsCb = response.data;
+						})
+						.catch(function(error) {
+							alert(error.response.data);
+						});
+				}
+			}
+			
+			socket.onclose = function() {
+				socket = null;
+			}
+			
+		} catch (exception) {
+			console.log('Error' + exception);
+		}
 	},
 	methods: {
 		startAgent: function() {

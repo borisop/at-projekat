@@ -16,4 +16,7 @@ public interface AgentManager extends Serializable {
 	
 	public void stopAgent(AID aid);
 	
+	public void addRunningAgentFromAnotherHostToCache(AID aid);
+
+	public void removeRunningAgentFromAnotherHostFromCache(AID aid);
 }

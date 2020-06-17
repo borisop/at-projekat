@@ -45,6 +45,7 @@ public class MDBConsumer implements MessageListener {
 	private void deliverMessage(ACLMessage msg, AID aid) {
 		Agent agent = agentManager.getAgentReference(aid);
 		if (agent != null) {
+			System.out.println("****AGENT HANDLING RECIEVED ACL MESSAGE****");
 			agent.handleMessage(msg);
 		} else {
 			System.out.println("No such agent: " + aid.getAgentCenter().getAlias());

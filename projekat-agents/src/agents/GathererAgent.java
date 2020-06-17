@@ -25,6 +25,7 @@ public class GathererAgent extends BaseAgent {
 	@Override
 	protected void onMessage(ACLMessage aclMessage) {
 		System.out.println("****GATHERER AGENT RECIEVED MESSAGE****");
+		
 	}
  
 }

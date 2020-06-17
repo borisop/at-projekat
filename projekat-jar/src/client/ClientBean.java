@@ -43,11 +43,13 @@ public class ClientBean implements ClientRest{
 
 	@Override
 	public AID startAgent(AgentType type, String name) {
+		messageManager.post("AGENT_STARTED");
 		return agentManager.startServerAgent(type, name);
 	}
 
 	@Override
-	public void stopAgent(AID aid) {;
+	public void stopAgent(AID aid) {
+		messageManager.post("AGENT_STOPPED");
 		agentManager.stopAgent(aid);
 	}
 

@@ -16,35 +16,40 @@ import model.Performative;
 
 @Stateful
 @Remote(Agent.class)
-public class MasterAgent extends BaseAgent {
-	
+public class Pong extends BaseAgent {
+
 	private static final long serialVersionUID = 1L;
-	private String nodeName;
+	
+	private int counter;
+	
+	
 	
 	@Override
 	protected void onInit() {
+		// TODO Auto-generated method stub
 		super.onInit();
-		nodeName = System.getProperty("jboss.node.name");
-		System.out.println("****MASTER AGENT CREATED****");
-		System.out.println("Agent is on " + nodeName);
+		counter = 0;
 	}
+
+
 
 	@Override
 	protected void onMessage(ACLMessage aclMessage) {
-		System.out.println("****MASTER AGENT RECIEVED MESSAGE****");
-		
 		if (aclMessage.getPerformative() == Performative.REQUEST) {
 			AgentCenter agentCenter = new AgentCenter(aclMessage.getSender().getAgentCenter().getAlias(), aclMessage.getSender().getAgentCenter().getAddress());
-			AgentType agentType = new AgentType(SeekerAgent.class.getSimpleName(), Agent.PROJEKAT_MODULE);
-			AID seekerAid  = new AID(agentCenter, agentType);
-			ACLMessage msgToSeeker = new ACLMessage(Performative.REQUEST);
-			msgToSeeker.setSender(myAid);
-			msgToSeeker.setContent(aclMessage.getContent());
+			AgentType agentType = new AgentType(Ping.class.getSimpleName(), Agent.PROJEKAT_MODULE);
+			AID pongAid  = new AID(agentCenter, agentType);
+			ACLMessage reply = new ACLMessage(Performative.INFORM);
+			reply.setSender(myAid);
 			List<AID> recievers = new ArrayList<AID>();
-			recievers.add(seekerAid);
-			msgToSeeker.setRecievers(recievers);
-			messageManager().post(msgToSeeker);
+			recievers.add(aclMessage.getSender());
+			reply.setRecievers(recievers);
+			++counter;
+			reply.setContent("Counter:" +  counter);
+			messageManager().post(reply);
+		} else if (aclMessage.getPerformative() == Performative.INFORM) {
+			ACLMessage msgFromPong = aclMessage;
 		}
 	}
-	
+
 }

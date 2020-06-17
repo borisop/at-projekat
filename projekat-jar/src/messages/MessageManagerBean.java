@@ -28,13 +28,15 @@ public class MessageManagerBean implements MessageManager {
 	private JMSFactory jmsFactory;
 	private Session session;
 	private MessageProducer defaultProducer;
-//	private MessageProducer testProducer;
+	private MessageProducer wsProducer;
 	
 	
 	@PostConstruct
 	public void postConstruct() {
 		session = jmsFactory.getSession();
 		defaultProducer = jmsFactory.getDefaultProducer(session);
+		session = jmsFactory.getSession();
+		wsProducer = jmsFactory.getWsProducer(session);
 	}
 	
 	@PreDestroy
@@ -68,6 +70,16 @@ public class MessageManagerBean implements MessageManager {
 		
 	}
 	
+	@Override
+	public void post(String message) {
+		try {
+			ObjectMessage jmsMsg = session.createObjectMessage(message);
+			getWsProducer().send(jmsMsg);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
 	private void postToReciever(ACLMessage msg, int index) {
 		AID aid = msg.getRecievers().get(index);
 		try {
@@ -94,10 +106,10 @@ public class MessageManagerBean implements MessageManager {
 	}
 	
 	
-//	private MessageProducer getTestProducer() {
-//		if (testProducer == null) {
-//			testProducer = factory.getTestProducer(session);
+	private MessageProducer getWsProducer() {
+//		if (wsProducer == null) {
+//			wsProducer = factory.getTestProducer(session);
 //		}
-//		return testProducer;
-//	}
+		return wsProducer;
+	}
 }
